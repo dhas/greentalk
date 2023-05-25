@@ -26,7 +26,7 @@ val NoGUI: State = state(null) {
 val GUIConnected = state(NoGUI) {
     onEntry {
         // Pass data to GUI
-        send(DataDelivery(buttons = buttons, inputFields = inputFieldData.keys.toList()))
+        send(DataDelivery(rows, cols, gardenObjects))
          // Directly respond with the value we get from the event, with a fallback
         furhat.say("Let's start building your garden!")
         goto(ChoosingGrid)

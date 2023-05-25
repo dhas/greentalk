@@ -13,10 +13,11 @@ class App extends Component {
         super(props)
         this.state = {
             "speaking": false,
-            "buttons": [],
-            "inputFields": [],
+            "cols": [],
+            "rows": [],
+            "gardenObjects": [],
             "highlightGrid": null,
-            "gardenObjects": []
+            "gardenState": []
         }
         this.furhat = null
     }
@@ -26,15 +27,15 @@ class App extends Component {
         this.furhat?.subscribe('furhatos.app.furgui.DataDelivery', (data) => {
             this.setState({
                 ...this.state,
-                buttons: data.buttons,
-                inputFields: data.inputFields
+                rows: data.rows,
+                cols: data.cols
             })
         })
 
-        this.furhat?.subscribe('furhatos.app.furgui.AddGardenObject', (data) => {
+        this.furhat?.subscribe('furhatos.app.furgui.AddGardenState', (data) => {
             this.setState({
                 ...this.state,
-                gardenObjects: [...this.state.gardenObjects,{
+                gardenState: [...this.state.gardenObjects,{
                     position: data.gridPosition.value ?? null,
                     object: data.gardenObject.value ?? null
                 }]
@@ -105,8 +106,7 @@ class App extends Component {
                 </Row>
                 <Row>
                     <GardenGrid
-                        highlightGrid={this.state.highlightGrid}
-                        gardenObjects={this.state.gardenObjects}
+                        {...this.state}
                     />
                 </Row>
             </Container>

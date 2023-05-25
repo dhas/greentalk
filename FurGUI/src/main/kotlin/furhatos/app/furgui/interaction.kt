@@ -40,7 +40,7 @@ val ChoosingGrid = state() {
     onResponse<ChooseGardenObject> {
         val gardenObj = it.intent.gardenObj
         if (gardenObj != null) {
-            send(AddGardenObject(gridPosition = selectedPosition!!, gardenObject = gardenObj))
+            send(AddGardenState(gridPosition = selectedPosition!!, gardenObject = gardenObj))
             furhat.say("Great!, you have chosen $gardenObj to be placed in $selectedPosition")
         }
         else {

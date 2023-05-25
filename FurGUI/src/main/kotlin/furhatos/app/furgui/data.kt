@@ -21,3 +21,7 @@ val inputFieldData = mutableMapOf<String, (String) -> String>(
     }
 )
 
+val rows = listOf("A", "B", "C")
+val cols = listOf("1", "2", "3")
+
+val gardenObjects = listOf("tree", "bush")

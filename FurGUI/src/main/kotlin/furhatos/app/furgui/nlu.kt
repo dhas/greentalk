@@ -9,8 +9,6 @@ import furhatos.util.Language
 
 class GridPosition : EnumEntity(stemming = true, speechRecPhrases = true) {
     override fun getEnum(lang: Language): List<String> {
-        val rows = listOf("A", "B", "C")
-        val cols = listOf("1", "2", "3")
         val gridPos = mutableListOf<String>()
         for (r in rows){for (c in cols) gridPos.add("$r$c")}
         return gridPos
@@ -26,7 +24,7 @@ class ChooseGrid(var gridPos : GridPosition? = null) : Intent() {
 
 class GardenObject : EnumEntity(stemming = true, speechRecPhrases = true) {
     override fun getEnum(lang: Language): List<String> {
-        return listOf("tree", "bush")
+        return gardenObjects
     }
 }
 
