@@ -35,8 +35,8 @@ class App extends Component {
         this.furhat?.subscribe('furhatos.app.furgui.AddGardenState', (data) => {
             this.setState({
                 ...this.state,
-                gardenState: [...this.state.gardenObjects,{
-                    position: data.gridPosition.value ?? null,
+                gardenState: [...this.state.gardenObjects, {
+                    position: data.gridPosition ?? null,
                     object: data.gardenObject.value ?? null
                 }]
 
@@ -44,18 +44,9 @@ class App extends Component {
         })
 
         this.furhat?.subscribe('furhatos.app.furgui.SelectGrid', (data) => {
-
             this.setState({
                 ...this.state,
                 highlightGrid: data.select.value ?? null
-            })
-        })
-
-        // This event contains to data so we defined it inline in the flow
-        this.furhat?.subscribe('SpeechDone', () => {
-            this.setState({
-                ...this.state,
-                speaking: false
             })
         })
 
@@ -71,28 +62,16 @@ class App extends Component {
     }
 
 
-    clickButton = (button) => {
-        this.setState({
-            ...this.state,
-            speaking: true
-        })
+    clickGrid = (position) => {
+        console.log(position)
         this.furhat?.send({
-            event_name: "ClickButton",
-            data: button
+            event_name: "ClickGrid",
+            data: position
         })
-    }
 
-    variableSet = (variable, value) => {
         this.setState({
             ...this.state,
-            speaking: true
-        })
-        this.furhat?.send({
-            event_name: "VariableSet",
-            data: {
-                variable,
-                value
-            }
+            highlightGrid: position ?? null
         })
     }
 
@@ -107,6 +86,7 @@ class App extends Component {
                 <Row>
                     <GardenGrid
                         {...this.state}
+                        clickGrid={this.clickGrid}
                     />
                 </Row>
             </Container>

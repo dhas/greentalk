@@ -13,6 +13,7 @@ class GridPosition : EnumEntity(stemming = true, speechRecPhrases = true) {
         for (r in rows){for (c in cols) gridPos.add("$r$c")}
         return gridPos
     }
+
 }
 
 class ChooseGrid(var gridPos : GridPosition? = null) : Intent() {

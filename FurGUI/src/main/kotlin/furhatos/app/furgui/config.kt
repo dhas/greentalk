@@ -22,7 +22,7 @@ class SelectGrid(
 ) : Event()
 
 class AddGardenState(
-        val gridPosition :  GridPosition,
+        val gridPosition : String,
         val gardenObject : GardenObject
 ) : Event()
 

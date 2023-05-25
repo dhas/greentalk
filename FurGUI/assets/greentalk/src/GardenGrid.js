@@ -5,8 +5,14 @@ import Col from 'react-bootstrap/Col';
 import Icons from './Icons';
 
 class GardenGrid extends Component {
+
   render() {
-    const { highlightGrid, gardenState, rows, cols } = this.props;
+    const { highlightGrid,
+      gardenState,
+      rows,
+      cols,
+      clickGrid
+    } = this.props;
 
     return (
       <Container className='border border-2'>
@@ -22,6 +28,8 @@ class GardenGrid extends Component {
                 ${highlightGrid === gridValue && !hasObject?.object ? 'bg-success' : ''
                   }`}
                 style={{ height: '200px' }}
+
+                onClick={() => clickGrid(`${letter}${number}`)}
               >
                 {gridValue}
 
