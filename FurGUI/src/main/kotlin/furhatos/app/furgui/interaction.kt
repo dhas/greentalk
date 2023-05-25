@@ -9,7 +9,7 @@ import furhatos.nlu.common.No
 import furhatos.nlu.common.Yes
 import furhatos.util.Language
 
-var selectedPosition : GridPosition? = null
+var selectedPosition = " "
 
 val ChoosingGrid = state() {
 
@@ -17,6 +17,18 @@ val ChoosingGrid = state() {
         random(
             { furhat.ask("What grid would you like to choose?") }
         )
+    }
+
+    // Users clicked any of our buttons
+    onEvent(CLICK_GRID) {
+        val gridPos = it.get("data") as String
+        if (gridPos != "") {
+            furhat.say("Great!, you have chosen $gridPos")
+            selectedPosition =  gridPos
+            furhat.ask("What would you like to place in $gridPos?")
+        }
+        // Directly respond with the value we get from the event, with a fallback
+        furhat.say("You pressed ${it.get("data") ?: "something I'm not aware of" }")
     }
 
     onResponse<RequestOptions> {
@@ -29,7 +41,7 @@ val ChoosingGrid = state() {
         if (gridPos != null) {
            send(SelectGrid(gridPos))
             furhat.say("Great!, you have chosen $gridPos")
-            selectedPosition = gridPos
+            selectedPosition = gridPos.optionsToText()
             furhat.ask("What would you like to place in $gridPos?")
         }
         else {
@@ -39,8 +51,8 @@ val ChoosingGrid = state() {
 
     onResponse<ChooseGardenObject> {
         val gardenObj = it.intent.gardenObj
-        if (gardenObj != null) {
-            send(AddGardenObject(gridPosition = selectedPosition!!, gardenObject = gardenObj))
+        if (gardenObj != null && selectedPosition != "") {
+            send(AddGardenState(gridPosition = selectedPosition, gardenObject = gardenObj))
             furhat.say("Great!, you have chosen $gardenObj to be placed in $selectedPosition")
         }
         else {

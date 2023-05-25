@@ -11,8 +11,9 @@ val SPEECH_DONE = "SpeechDone"
 
 // Event used to pass data to GUI
 class DataDelivery(
-        val buttons : List<String>,
-        val inputFields: List<String>
+        val rows : List<String>,
+        val cols: List<String>,
+        val gardenObjects: List<String>
 ) : Event()
 
 // Event used to pass data to GUI
@@ -20,8 +21,8 @@ class SelectGrid(
         val select : GridPosition
 ) : Event()
 
-class AddGardenObject(
-        val gridPosition :  GridPosition,
+class AddGardenState(
+        val gridPosition : String,
         val gardenObject : GardenObject
 ) : Event()
 

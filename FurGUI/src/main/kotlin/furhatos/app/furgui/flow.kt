@@ -8,7 +8,7 @@ import furhatos.skills.HostedGUI
 // Our GUI declaration
 val GUI = HostedGUI("ExampleGUI", "assets/greentalk/build", PORT)
 val VARIABLE_SET = "VariableSet"
-val CLICK_BUTTON = "ClickButton"
+val CLICK_GRID = "ClickGrid"
 
 // Starting state, before our GUI has connected.
 val NoGUI: State = state(null) {
@@ -26,20 +26,13 @@ val NoGUI: State = state(null) {
 val GUIConnected = state(NoGUI) {
     onEntry {
         // Pass data to GUI
-        send(DataDelivery(buttons = buttons, inputFields = inputFieldData.keys.toList()))
+        send(DataDelivery(rows, cols, gardenObjects))
          // Directly respond with the value we get from the event, with a fallback
         furhat.say("Let's start building your garden!")
         goto(ChoosingGrid)
     }
 
-    // Users clicked any of our buttons
-    onEvent(CLICK_BUTTON) {
-        // Directly respond with the value we get from the event, with a fallback
-        furhat.say("You pressed ${it.get("data") ?: "something I'm not aware of" }")
 
-        // Let the GUI know we're done speaking, to unlock buttons
-        send(SPEECH_DONE)
-    }
 
     // Users saved some input
     onEvent(VARIABLE_SET) {
