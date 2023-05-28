@@ -8,7 +8,7 @@ import furhatos.flow.kotlin.DialogHistory
 import furhatos.flow.kotlin.Furhat
 
 /** API Key to GPT3 language model. Get access to the API and genereate your key from: https://openai.com/api/ **/
-val serviceKey = " "
+val serviceKey = ""
 
 class OpenAIChatbot() {
 
@@ -70,9 +70,7 @@ class OpenAIChatbot() {
     fun summarizeResponse(): String {
         val context = "Generate keywords for the conversation"
 
-        val prompt = "Garden designer: What would you like to see in your garden? Human: I would like to see a lotus in a pond Garden designer: What else  would you want to see? Human: visualize my garden Garden designer: Sure, please wait Garden designer:. summarize keywords for the conversation"
-
-        /*val history = Furhat.dialogHistory.all.mapNotNull {
+        val history = Furhat.dialogHistory.all.mapNotNull {
             when (it) {
                 is DialogHistory.ResponseItem -> {
                     "Human: ${it.response.text}"
@@ -82,14 +80,13 @@ class OpenAIChatbot() {
                 }
                 else -> null
             }
-        }.joinToString(separator = "\n")
-        val prompt = "$history"
-        println("-----")
+        }.joinToString(separator = ".")
+
+        val prompt = context + history
+        println("--Summary--")
         println(prompt)
-        println("-----")*/
-        println("-----")
-        println(prompt)
-        println("-----")
+        println("--Summary--")
+
         val completionRequest = CompletionRequest.builder()
                 .temperature(0.9)
                 .maxTokens(50)
