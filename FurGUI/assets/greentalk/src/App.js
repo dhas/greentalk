@@ -13,40 +13,47 @@ class App extends Component {
         super(props)
         this.state = {
             "speaking": false,
-            "cols": [],
-            "rows": [],
-            "gardenObjects": [],
-            "highlightGrid": null,
-            "gardenState": []
+            "image": null
+            // "cols": [],
+            // "rows": [],
+            // "gardenObjects": [],
+            // "highlightGrid": null,
+            // "gardenState": []
         }
         this.furhat = null
     }
 
     setupSubscriptions() {
         // Our DataDelivery event is getting no custom name and hence gets it's full class name as event name.
-        this.furhat?.subscribe('furhatos.app.furgui.DataDelivery', (data) => {
-            this.setState({
-                ...this.state,
-                rows: data.rows,
-                cols: data.cols
-            })
-        })
+        // this.furhat?.subscribe('furhatos.app.furgui.DataDelivery', (data) => {
+        //     this.setState({
+        //         ...this.state,
+        //         rows: data.rows,
+        //         cols: data.cols
+        //     })
+        // })
 
-        this.furhat?.subscribe('furhatos.app.furgui.AddGardenState', (data) => {
-            this.setState({
-                ...this.state,
-                gardenState: [...this.state.gardenObjects, {
-                    position: data.gridPosition ?? null,
-                    object: data.gardenObject.value ?? null
-                }]
+        // this.furhat?.subscribe('furhatos.app.furgui.AddGardenState', (data) => {
+        //     this.setState({
+        //         ...this.state,
+        //         gardenState: [...this.state.gardenObjects, {
+        //             position: data.gridPosition ?? null,
+        //             object: data.gardenObject.value ?? null
+        //         }]
 
-            })
-        })
+        //     })
+        // })
 
-        this.furhat?.subscribe('furhatos.app.furgui.SelectGrid', (data) => {
+        // this.furhat?.subscribe('furhatos.app.furgui.SelectGrid', (data) => {
+        //     this.setState({
+        //         ...this.state,
+        //         highlightGrid: data.select.value ?? null
+        //     })
+        // })
+
+        this.furhat?.subscribe('furhatos.app.furgui.SendImage', (data) => {
             this.setState({
-                ...this.state,
-                highlightGrid: data.select.value ?? null
+                image: data.image ?? null
             })
         })
 
@@ -62,32 +69,37 @@ class App extends Component {
     }
 
 
-    clickGrid = (position) => {
-        console.log(position)
-        this.furhat?.send({
-            event_name: "ClickGrid",
-            data: position
-        })
+    // clickGrid = (position) => {
+    //     console.log(position)
+    //     this.furhat?.send({
+    //         event_name: "ClickGrid",
+    //         data: position
+    //     })
 
-        this.setState({
-            ...this.state,
-            highlightGrid: position ?? null
-        })
-    }
+    //     this.setState({
+    //         ...this.state,
+    //         highlightGrid: position ?? null
+    //     })
+    // }
 
     render() {
+        const { image } = this.state
+        console.log(image)
         return (
-            <Container>
+            <Container className='text-white'>
                 <Row className='d-flex'>
                     <Col sm={12}>
                         <h1>greentalk</h1>
                     </Col>
                 </Row>
                 <Row>
-                    <GardenGrid
-                        {...this.state}
-                        clickGrid={this.clickGrid}
-                    />
+                    <div>Create your dream garden</div>
+                    {image &&
+                        <img
+                            width="512" height="512"
+                            style={{ height: '512px', width: '512px' }}
+                            src={image}
+                            alt='garden' />}
                 </Row>
             </Container>
         )

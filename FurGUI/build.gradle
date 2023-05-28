@@ -45,7 +45,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.furhatrobotics.furhatos:furhat-commons:+'
+    compile 'com.furhatrobotics.furhatos:furhat-commons:2.5.0'
+    compile 'com.theokanning.openai-gpt3-java:service:0.12.0'
 }
 
 //These new blocks are needed to package your project into a working skill file. 
@@ -63,6 +64,11 @@ shadowJar {
         exclude '**/Log4j2Plugins.dat'
         exclude '**/node_modules'
     }
+    Properties properties = new Properties()
+    properties.load(project.file('skill.properties').newDataInputStream())
+    def version = properties.getProperty('version')
+    def name = properties.getProperty('name')
+    archiveName = "${name}_${version}.skill"
     from "skill.properties"
     from "assets"
     extension 'skill'

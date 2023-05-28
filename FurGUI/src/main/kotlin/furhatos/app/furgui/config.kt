@@ -17,14 +17,8 @@ class DataDelivery(
 ) : Event()
 
 // Event used to pass data to GUI
-class SelectGrid(
-        val select : GridPosition
+class SendImage(
+        val image: String
 ) : Event()
-
-class AddGardenState(
-        val gridPosition : String,
-        val gardenObject : GardenObject
-) : Event()
-
 
 
