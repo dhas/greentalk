@@ -24,4 +24,9 @@ val inputFieldData = mutableMapOf<String, (String) -> String>(
 val rows = listOf("A", "B", "C")
 val cols = listOf("1", "2", "3")
 
-val gardenObjects = listOf("tree", "bush")
+val gardenObjects = listOf("tree", "bush", "pond", "rocks", "grass")
+val gardenTypes = listOf("traditional", "modern", "rocky")
+
+//class gardenGridData (
+//    var
+//)

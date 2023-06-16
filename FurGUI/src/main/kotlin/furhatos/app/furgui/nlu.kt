@@ -1,9 +1,6 @@
 package furhatos.app.furgui
 
-import furhatos.nlu.ComplexEnumEntity
-import furhatos.nlu.EnumEntity
-import furhatos.nlu.Intent
-import furhatos.nlu.ListEntity
+import furhatos.nlu.*
 import furhatos.nlu.common.Number
 import furhatos.util.Language
 
@@ -32,7 +29,7 @@ class GardenObject : EnumEntity(stemming = true, speechRecPhrases = true) {
 class ChooseGardenObject(var gardenObj : GardenObject? = null) : Intent() {
 
     override fun getExamples(lang: Language): List<String> {
-        return listOf("@gardenObj", "I select @gardenObj", "I choose @gardenObj")
+        return listOf("@gardenObj", "I select @gardenObj", "I choose @gardenObj", "Maybe a @gardenObj?")
     }
 }
 
@@ -57,6 +54,21 @@ class RequestOptions: Intent() {
     }
 }
 
+class GardenType : EnumEntity(stemming = true, speechRecPhrases = true) {
+    override fun getEnum(lang: Language): List<String> {
+        return gardenTypes
+    }
+}
+
+class GardenTypeStatement(var gardenType : GardenType? = null): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("I prefer @gardenType styles.",
+            "@gardenType.",
+            "A @gardenType garden please.",
+            "Something more @gardenType")
+    }
+}
+
 class FruitList : ListEntity<QuantifiedFruit>()
 
 class QuantifiedFruit(
@@ -71,3 +83,25 @@ class QuantifiedFruit(
     }
 }
 
+class FillGridPosition : Intent(), TextGenerator {
+
+    var gridPos : GridPosition? = null
+
+    var gardenObj : GardenObject? = null
+
+    override fun getExamples(lang: Language): List<String> {
+        return listOf(
+            "I would like a bush in square B2",
+            "Let's put a tree in position A3",
+            "I want a pond in C1")
+    }
+
+    override fun toText(lang : Language) : String {
+        return generate(lang, "${if (gardenObj != null) "[$gardenObj]" else "something"} ${if (gridPos != null) "[in $gridPos]" else "somewhere"}")
+    }
+
+
+    override fun toString(): String {
+        return toText()
+    }
+}

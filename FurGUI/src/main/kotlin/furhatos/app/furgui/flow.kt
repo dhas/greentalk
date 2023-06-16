@@ -2,8 +2,11 @@ package furhatos.app.furgui
 
 import furhatos.event.senses.SenseSkillGUIConnected
 import furhatos.flow.kotlin.*
+import furhatos.flow.kotlin.voice.Voice
 import furhatos.records.Record
 import furhatos.skills.HostedGUI
+import furhatos.util.Gender
+import furhatos.util.Language
 
 // Our GUI declaration
 val GUI = HostedGUI("ExampleGUI", "assets/greentalk/build", PORT)
@@ -28,8 +31,10 @@ val GUIConnected = state(NoGUI) {
         // Pass data to GUI
         send(DataDelivery(rows, cols, gardenObjects))
          // Directly respond with the value we get from the event, with a fallback
-        furhat.say("Let's start building your garden!")
-        goto(ChoosingGrid)
+        furhat.setVoice(language=Language.ENGLISH_US, gender=Gender.MALE)
+        furhat.say("Hello! Good to meet you, let's see if we can make you a nice garden plan.")
+        goto(StartingQuestions)
+//        goto(ChoosingGrid)
     }
 
 
