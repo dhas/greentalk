@@ -1,16 +1,14 @@
 package furhatos.app.furgui
 
-import furhatos.app.furgui.BuyFruit
-import furhatos.app.furgui.Fruit
-import furhatos.app.furgui.FruitList
-import furhatos.app.furgui.RequestOptions
-import furhatos.flow.kotlin.*
+import furhatos.flow.kotlin.State
+import furhatos.flow.kotlin.furhat
+import furhatos.flow.kotlin.onResponse
+import furhatos.flow.kotlin.state
 import furhatos.nlu.common.No
 import furhatos.nlu.common.Yes
-import furhatos.util.Language
 
 var selectedPosition = " "
-
+var gType = " "
 val StartingQuestions = state() {
 
     onEntry {
@@ -20,6 +18,7 @@ val StartingQuestions = state() {
 
     onResponse<GardenTypeStatement> {
         val gardenType = it.intent.gardenType
+        gType = "$gardenType"
         furhat.say("OK, we'll go with a $gardenType style!")
         goto(ChoosingGrid)
     }
@@ -67,7 +66,12 @@ val AskRender: State = state() {
     }
 
     onResponse<Yes> {
-        furhat.say("Sorry, I actually can't do that bit just yet.")
+        furhat.say("Ok, let me render that for you.")
+        val command = "python src/main/kotlin/furhatos/app/furgui/generate_collage.py $gType"
+        print(command)
+        val process = Runtime.getRuntime().exec(command)
+        process.waitFor()
+        furhat.say("Ok its done!")
     }
 
 }
@@ -123,6 +127,10 @@ val ChoosingGrid: State = state() {
             // Send to GUI
             send(AddGardenState(gridPosition = selectedPosition, gardenObject = gardenObj))
             furhat.say("Great!, you have chosen $gardenObj to be placed in $selectedPosition")
+            val command = "python src/main/kotlin/furhatos/app/furgui/generate_tile.py $gType $gardenObj $selectedPosition"
+            print(command)
+            val process = Runtime.getRuntime().exec(command)
+            process.waitFor()
             goto(DoYouWant)
         }
         else {
