@@ -12,7 +12,7 @@ var gType = " "
 val StartingQuestions = state() {
 
     onEntry {
-        furhat.say("There are a few questions I'd like to ask you before we start.")
+//        furhat.say("There are a few questions I'd like to ask you before we start.")
         furhat.ask( "First of all, would you like a more traditional garden, or something more modern?")
     }
 
@@ -72,6 +72,23 @@ val AskRender: State = state() {
         val process = Runtime.getRuntime().exec(command)
         process.waitFor()
         furhat.say("Ok its done!")
+        // Display in online GUI?
+    }
+
+}
+
+val HappyWithRender: State = state() {
+
+    onEntry {
+        furhat.ask("Are you happy with the way this turned out?")
+    }
+
+    onResponse<No> {
+        goto(DoYouWant)
+    }
+
+    onResponse<Yes> {
+        furhat.say("Great! I'm glad we could make a nice design for you.")
     }
 
 }
@@ -127,7 +144,7 @@ val ChoosingGrid: State = state() {
             // Send to GUI
             send(AddGardenState(gridPosition = selectedPosition, gardenObject = gardenObj))
             furhat.say("Great!, you have chosen $gardenObj to be placed in $selectedPosition")
-            val command = "python src/main/kotlin/furhatos/app/furgui/generate_tile.py $gType $gardenObj $selectedPosition"
+            val command = "python src/main/kotlin/furhatos/app/furgui/generate_tile.py $gType $gardenObj $selectedPosition "
             print(command)
             val process = Runtime.getRuntime().exec(command)
             process.waitFor()

@@ -33,6 +33,7 @@ val GUIConnected = state(NoGUI) {
          // Directly respond with the value we get from the event, with a fallback
         furhat.setVoice(language=Language.ENGLISH_US, gender=Gender.MALE)
         furhat.say("Hello! Good to meet you, let's see if we can make you a nice garden plan.")
+        furhat.say("There are a few questions I'd like to ask you before we start.")
         goto(StartingQuestions)
 //        goto(ChoosingGrid)
     }

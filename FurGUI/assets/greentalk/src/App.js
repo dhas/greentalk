@@ -89,6 +89,9 @@ class App extends Component {
                         clickGrid={this.clickGrid}
                     />
                 </Row>
+                <Row>
+                    This is where the generated image can go.
+                </Row>
             </Container>
         )
     }
